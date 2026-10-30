@@ -1,0 +1,15 @@
+{
+  "name": "BeamiPhone",
+  "author": "wserf",
+  "version": "1.4",
+  "description": "iPhone-style smartphone for BeamNG.drive with local music, integrated internet radio, maps, weather and vehicle controls.",
+  "directive": "beamiPhoneApp",
+  "domElement": "<beami-phone-app></beami-phone-app>",
+  "css": {
+    "width": "290px",
+    "height": "628px",
+    "bottom": "16px",
+    "right": "16px"
+  },
+  "preserveAspectRatio": true
+}
