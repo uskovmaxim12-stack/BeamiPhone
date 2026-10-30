@@ -1,0 +1,60 @@
+BeamiPhone - License
+====================
+
+Copyright (c) 2026 wserf. All rights reserved.
+Original-release marker: BP-wserf-A364B58F7647
+
+Permitted
+  - Install and use BeamiPhone in BeamNG.drive for personal, non-commercial play.
+  - Record and stream gameplay that shows the mod, provided you credit "BeamiPhone by wserf".
+
+Not permitted without the author's prior written permission
+  - Re-uploading, mirroring, selling or otherwise redistributing BeamiPhone, in whole or in part.
+  - Publishing modified, merged or "remade" versions, or reusing its code, design, text,
+    icons or other assets in another project.
+  - Removing or altering the author credit or this notice.
+  - Presenting BeamiPhone, or anything derived from it, as your own work.
+
+Third-party content
+  - Music you place in the BeamiPhone music folder remains the property of its owners.
+    BeamiPhone does not include or distribute any music.
+  - BeamNG and BeamNG.drive are trademarks of BeamNG GmbH. BeamiPhone is an unofficial
+    fan-made modification and is not affiliated with or endorsed by BeamNG GmbH.
+  - The icons and layout are original, iOS-inspired designs; BeamiPhone is not affiliated
+    with Apple Inc.
+
+Warranty and liability
+  BeamiPhone is provided "as is", without warranty of any kind. To the extent permitted by
+  law, the author is not liable for any damage, data loss or game problems arising from its
+  use. You use it at your own risk.
+
+------------------------------------------------------------------------------------------
+
+BeamiPhone - Лицензия
+
+Copyright (c) 2026 wserf. Все права защищены.
+Метка оригинального релиза: BP-wserf-A364B58F7647
+
+Разрешено
+  - Устанавливать и использовать BeamiPhone в BeamNG.drive для личной некоммерческой игры.
+  - Показывать мод в видео и на стримах с указанием «BeamiPhone by wserf».
+
+Запрещено без письменного разрешения автора
+  - Перезаливать, зеркалировать, продавать и иным образом распространять BeamiPhone целиком
+    или по частям.
+  - Публиковать изменённые, объединённые или «переделанные» версии, а также использовать
+    код, дизайн, тексты, иконки и другие материалы мода в чужих проектах.
+  - Удалять или менять указание авторства и это уведомление.
+  - Выдавать BeamiPhone или производные работы за свои.
+
+Сторонние материалы
+  - Музыка, которую вы кладёте в папку BeamiPhone, принадлежит её правообладателям.
+    BeamiPhone не содержит и не распространяет музыку.
+  - BeamNG и BeamNG.drive — товарные знаки BeamNG GmbH. BeamiPhone — неофициальная
+    пользовательская модификация, не связанная с BeamNG GmbH.
+  - Иконки и оформление — оригинальные работы в стиле iOS; BeamiPhone не связан с Apple Inc.
+
+Гарантии и ответственность
+  BeamiPhone предоставляется «как есть», без каких-либо гарантий. В пределах, допустимых
+  законом, автор не отвечает за ущерб, потерю данных и проблемы в игре, возникшие при
+  использовании мода. Вы используете его на свой риск.

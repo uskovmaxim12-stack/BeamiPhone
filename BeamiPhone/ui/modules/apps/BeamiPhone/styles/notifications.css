@@ -1,0 +1,217 @@
+/* BeamiPhone (c) 2026 wserf. All rights reserved.
+   Do not re-upload, redistribute or reuse without permission. See LICENSE.txt. [BP-wserf-A364B58F7647] */
+/* BeamiPhone :: styles/notifications.css -- iOS-style banner + lock screen stacks.
+   Everything that moves only animates transform/opacity. */
+
+.bp-notif-card {
+  display: flex;
+  align-items: flex-start;
+  gap: 10px;
+  box-sizing: border-box;
+  padding: 10px 12px;
+  border-radius: 22px;
+  background: rgba(44, 44, 48, 0.94);
+  box-shadow: 0 0 0 0.5px rgba(255, 255, 255, 0.14) inset, 0 8px 26px rgba(0, 0, 0, 0.4);
+  color: #fff;
+  text-align: left;
+  user-select: none;
+  cursor: default;
+  pointer-events: auto;
+  will-change: transform, opacity;
+}
+
+/* the real app icon (cloned from the home screen, custom icon.png included) */
+.bp-notif-icon { flex: 0 0 32px; width: 32px; height: 32px; }
+.bp-notif-icon .bp-icon {
+  width: 32px;
+  height: 32px;
+  padding: 6px;
+  border-radius: 8px;
+  box-shadow: none;
+  transition: none;
+}
+.bp-notif-icon .bp-icon svg { width: 100%; height: 100%; display: block; }
+
+.bp-notif-main { flex: 1; min-width: 0; display: flex; flex-direction: column; gap: 1px; }
+.bp-notif-row { display: flex; align-items: baseline; justify-content: space-between; gap: 8px; }
+.bp-notif-title { font-size: 13px; font-weight: 700; line-height: 1.25; white-space: nowrap; overflow: hidden; text-overflow: ellipsis; }
+.bp-notif-time { flex-shrink: 0; font-size: 11px; opacity: 0.6; }
+.bp-notif-text {
+  font-size: 13px;
+  line-height: 1.3;
+  opacity: 0.92;
+  display: -webkit-box;
+  -webkit-line-clamp: 2;
+  -webkit-box-orient: vertical;
+  overflow: hidden;
+}
+
+/* ---- banner (phone unlocked): lives INSIDE .bp-screen, so the screen clips it ---- */
+.bp-notif-banner {
+  position: absolute;
+  top: 44px;
+  left: 10px;
+  right: 10px;
+  z-index: 28; /* above the status bar (25), BELOW the island (30): it slides in/out from under it */
+  opacity: 0;
+  transform: translate3d(0, -90px, 0) scale(0.8);
+  transform-origin: 50% 0;
+  transition: transform 0.55s cubic-bezier(0.34, 1.35, 0.5, 1), opacity 0.22s ease;
+}
+.bp-notif-banner[data-from="left"] { transform: translate3d(-115%, 0, 0) scale(0.96); transform-origin: 0 50%; }
+.bp-notif-banner.bp-in { opacity: 1; transform: none; }
+
+/* ---- lock screen: bottom-anchored column  [music widget][stacks][shortcuts] ---- */
+.bp-lock-bottom {
+  position: relative;
+  z-index: 2;
+  margin-top: auto;
+  width: 100%;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  flex-shrink: 1;
+  min-height: 0;
+  max-height: calc(100% - 180px); /* never climbs over the date/time */
+}
+.bp-lock-bottom .bp-lock-music { margin: 0 12px; flex-shrink: 0; }
+.bp-lock-bottom .bp-lock-shortcuts { flex-shrink: 0; }
+.bp-lockscreen .bp-lock-bottom .bp-lock-shortcuts { margin-top: 14px; margin-bottom: 10%; }
+.bp-lockscreen.bp-has-music .bp-lock-bottom .bp-lock-shortcuts { margin-top: 14px; margin-bottom: 9%; }
+
+/* Scroll area. Full screen width, so cards flying sideways are clipped by the
+   screen edges. Its soft top/bottom fade is a mask whose size is animated. */
+@property --bp-fade-top { syntax: '<length>'; inherits: false; initial-value: 0px; }
+@property --bp-fade-bot { syntax: '<length>'; inherits: false; initial-value: 0px; }
+
+.bp-lock-notifs-wrap {
+  position: relative;
+  width: 100%;
+  margin-top: 8px;
+  display: flex;
+  flex-direction: column;
+  flex: 0 1 auto;
+  min-height: 0;
+}
+.bp-lock-notifs-wrap:not(.bp-has) { display: none; }
+
+.bp-lock-notifs {
+  width: 100%;
+  box-sizing: border-box;
+  padding: 0 12px;
+  flex: 0 1 auto;
+  min-height: 0;
+  overflow-x: hidden;
+  overflow-y: auto;
+  display: flex;
+  flex-direction: column;
+  gap: 8px;
+  --bp-fade-top: 0px;
+  --bp-fade-bot: 0px;
+  /* eased (smoothstep-like) stops: no visible edge where the fade starts or ends */
+  -webkit-mask-image: linear-gradient(to bottom,
+    transparent 0,
+    rgba(0,0,0,0.05) calc(var(--bp-fade-top) * 0.2),
+    rgba(0,0,0,0.20) calc(var(--bp-fade-top) * 0.4),
+    rgba(0,0,0,0.50) calc(var(--bp-fade-top) * 0.6),
+    rgba(0,0,0,0.82) calc(var(--bp-fade-top) * 0.8),
+    #000 var(--bp-fade-top),
+    #000 calc(100% - var(--bp-fade-bot)),
+    rgba(0,0,0,0.82) calc(100% - var(--bp-fade-bot) * 0.8),
+    rgba(0,0,0,0.50) calc(100% - var(--bp-fade-bot) * 0.6),
+    rgba(0,0,0,0.20) calc(100% - var(--bp-fade-bot) * 0.4),
+    rgba(0,0,0,0.05) calc(100% - var(--bp-fade-bot) * 0.2),
+    transparent 100%);
+  mask-image: linear-gradient(to bottom,
+    transparent 0,
+    rgba(0,0,0,0.05) calc(var(--bp-fade-top) * 0.2),
+    rgba(0,0,0,0.20) calc(var(--bp-fade-top) * 0.4),
+    rgba(0,0,0,0.50) calc(var(--bp-fade-top) * 0.6),
+    rgba(0,0,0,0.82) calc(var(--bp-fade-top) * 0.8),
+    #000 var(--bp-fade-top),
+    #000 calc(100% - var(--bp-fade-bot)),
+    rgba(0,0,0,0.82) calc(100% - var(--bp-fade-bot) * 0.8),
+    rgba(0,0,0,0.50) calc(100% - var(--bp-fade-bot) * 0.6),
+    rgba(0,0,0,0.20) calc(100% - var(--bp-fade-bot) * 0.4),
+    rgba(0,0,0,0.05) calc(100% - var(--bp-fade-bot) * 0.2),
+    transparent 100%);
+  transition: --bp-fade-top 0.35s ease, --bp-fade-bot 0.35s ease;
+}
+.bp-lock-notifs::-webkit-scrollbar { width: 0; height: 0; }
+.bp-lock-notifs-wrap.bp-more .bp-lock-notifs { --bp-fade-bot: 84px; }
+.bp-lock-notifs-wrap.bp-scrolled .bp-lock-notifs { --bp-fade-top: 44px; }
+
+/* progressive blur: what scrolls past the bottom edge sinks under frosted glass */
+.bp-lock-fade {
+  position: absolute;
+  left: 0;
+  right: 0;
+  bottom: 0;
+  height: 120px;
+  /* strongest in the middle, zero at BOTH ends: no hard line anywhere */
+  pointer-events: none;
+  opacity: 0;
+  transition: opacity 0.4s ease;
+  -webkit-backdrop-filter: blur(5px);
+  backdrop-filter: blur(5px);
+  -webkit-mask-image: linear-gradient(to bottom, transparent 0, rgba(0,0,0,0.06) 12%, rgba(0,0,0,0.25) 28%, rgba(0,0,0,0.6) 44%, #000 58%, rgba(0,0,0,0.6) 72%, rgba(0,0,0,0.25) 86%, rgba(0,0,0,0.06) 95%, transparent 100%);
+  mask-image: linear-gradient(to bottom, transparent 0, rgba(0,0,0,0.06) 12%, rgba(0,0,0,0.25) 28%, rgba(0,0,0,0.6) 44%, #000 58%, rgba(0,0,0,0.6) 72%, rgba(0,0,0,0.25) 86%, rgba(0,0,0,0.06) 95%, transparent 100%);
+}
+.bp-lock-notifs-wrap.bp-more .bp-lock-fade { opacity: 1; }
+
+.bp-notif-group { position: relative; flex-shrink: 0; display: flex; flex-direction: column; gap: 8px; }
+.bp-notif-group.bp-collapsed { display: block; }
+.bp-notif-group.bp-collapsed.bp-stacked { padding-bottom: 15px; }
+
+.bp-notif-lock {
+  box-shadow: 0 0 0 0.5px rgba(255, 255, 255, 0.14) inset;
+  opacity: 1;
+  transform: none;
+  transform-origin: 50% 100%;
+  transition: transform 0.55s cubic-bezier(0.32, 0.72, 0, 1), opacity 0.3s ease, background-color 0.3s ease;
+}
+.bp-notif-lock.bp-enter { opacity: 0; transform: translate3d(0, -26px, 0) scale(0.95); }
+.bp-notif-lock.bp-gone { opacity: 0 !important; }
+
+/* collapsed stack: newest in front, the older ones peek out underneath */
+.bp-collapsed .bp-notif-lock[data-depth="0"] { position: relative; z-index: 3; }
+.bp-collapsed .bp-notif-lock:not([data-depth="0"]) { position: absolute; left: 0; right: 0; top: 0; pointer-events: none; }
+.bp-collapsed .bp-notif-lock[data-depth="1"] { z-index: 2; transform: translate3d(0, 8px, 0) scale(0.93); background: rgba(34, 34, 38, 0.92); }
+.bp-collapsed .bp-notif-lock[data-depth="2"] { z-index: 1; transform: translate3d(0, 15px, 0) scale(0.86); background: rgba(28, 28, 32, 0.85); }
+.bp-collapsed .bp-notif-lock[data-depth="3"] { z-index: 0; transform: translate3d(0, 15px, 0) scale(0.86); opacity: 0; }
+.bp-notif-lock > * { transition: opacity 0.25s ease; }
+.bp-collapsed .bp-notif-lock:not([data-depth="0"]) > * { opacity: 0; }
+
+/* expanded: every card in its own row */
+.bp-expanded .bp-notif-lock { position: relative; }
+
+.bp-notif-less {
+  position: absolute;
+  top: 0;
+  left: 50%;
+  margin-left: -34px;
+  width: 68px;
+  box-sizing: border-box;
+  text-align: center;
+  padding: 4px 0;
+  border-radius: 999px;
+  background: rgba(70, 70, 76, 0.38);
+  color: rgba(255, 255, 255, 0.72);
+  font-size: 11px;
+  font-weight: 500;
+  cursor: pointer;
+  user-select: none;
+  z-index: 0;
+  opacity: 0;
+  pointer-events: none;
+  transition: opacity 0.3s ease;
+}
+.bp-expanded.bp-multi .bp-notif-less {
+  position: sticky;
+  top: 0;
+  align-self: center;
+  margin-left: 0;
+  z-index: 6;
+  opacity: 1;
+  pointer-events: auto;
+}
